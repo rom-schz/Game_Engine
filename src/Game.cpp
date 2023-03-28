@@ -1,4 +1,5 @@
 #include "Game.hpp"
+#include "TextureManager.hpp"
 
 SDL_Texture *playerTex = nullptr;
 
@@ -23,10 +24,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
         isRunning = false;
     }
 
-    SDL_Surface *surface = IMG_Load("assets/MiniWorldSprites/Characters/Workers/FarmerTemplate.png");
-    if(surface) SDL_Log("Surface successfully loaded.");
-    playerTex = SDL_CreateTextureFromSurface(renderer, surface);
-    SDL_FreeSurface(surface);
+    playerTex = TextureManager::LoadTexture("assets/MiniWorldSprites/Characters/Workers/FarmerTemplate.png", renderer);
 
 }
 
