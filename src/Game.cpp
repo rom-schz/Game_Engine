@@ -1,8 +1,12 @@
 #include "Game.hpp"
 #include "TextureManager.hpp"
 #include "GameObject.hpp"
+#include "Map.hpp"
 
 GameObject* player;
+Map* map;
+
+SDL_Renderer* Game::renderer = nullptr;
 
 Game::Game() {}
 
@@ -25,7 +29,8 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
         isRunning = false;
     }
 
-    player = new GameObject("assets/MiniWorldSprites/Characters/Workers/FarmerTemplate.png",renderer);
+    player = new GameObject("assets/MiniWorldSprites/Characters/Workers/FarmerTemplate.png");
+    map = new Map();
 }
 
 void Game::handleEvents() {
@@ -47,9 +52,8 @@ void Game::update() {
 
 void Game::render() {
     SDL_RenderClear(renderer);
-
+    map->render();
     player->render();
-
     SDL_RenderPresent(renderer);
 }
 

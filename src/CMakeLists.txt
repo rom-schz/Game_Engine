@@ -7,6 +7,7 @@ add_library(engine SHARED
     Game.cpp 
     TextureManager.cpp
     GameObject.cpp
+    Map.cpp
     ${HEADER_LIST})
 
 # We need this directory, and users of our library will need it too
