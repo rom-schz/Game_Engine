@@ -5,8 +5,12 @@ project(game_engine
         DESCRIPTION "A game engine made from a tutorial on youtube, just to learn."
         LANGUAGES CXX)
 
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
+
+
 find_package(SDL2 REQUIRED)
-include_directories(${SDL2_INCLUDE_DIRS})
+find_package(SDL2_image REQUIRED)
+include_directories(${SDL2_INCLUDE_DIRS} ${SDL_IMAGE_INCLUDE_DIRS})
 
 
 add_subdirectory(src)

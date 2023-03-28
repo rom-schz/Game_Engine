@@ -1,5 +1,7 @@
 #include "Game.hpp"
 
+SDL_Texture *playerTex = nullptr;
+
 Game::Game() {}
 
 Game::~Game() {}
@@ -21,6 +23,11 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
         isRunning = false;
     }
 
+    SDL_Surface *surface = IMG_Load("assets/MiniWorldSprites/Characters/Workers/FarmerTemplate.png");
+    if(surface) SDL_Log("Surface successfully loaded.");
+    playerTex = SDL_CreateTextureFromSurface(renderer, surface);
+    SDL_FreeSurface(surface);
+
 }
 
 void Game::handleEvents() {
@@ -40,6 +47,12 @@ void Game::update() {}
 
 void Game::render() {
     SDL_RenderClear(renderer);
+
+    SDL_Rect* rect = new SDL_Rect;
+    rect->x=0; rect->y=0; rect->h=16; rect->w=16;
+    SDL_RenderCopy(renderer, playerTex, rect, nullptr);
+    delete rect;
+
     SDL_RenderPresent(renderer);
 }
 

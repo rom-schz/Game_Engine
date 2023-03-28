@@ -1,8 +1,9 @@
 #include <iostream>
 #include "SDL.h"
+#include "SDL_image.h"
 #include "Game.hpp"
 
-Game* game = nullptr;
+Game *game = nullptr;
 
 int main(int argc, char** argv) {
     
