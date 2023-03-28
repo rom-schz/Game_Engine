@@ -1,7 +1,8 @@
 #include "Game.hpp"
 #include "TextureManager.hpp"
+#include "GameObject.hpp"
 
-SDL_Texture *playerTex = nullptr;
+GameObject* player;
 
 Game::Game() {}
 
@@ -24,8 +25,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
         isRunning = false;
     }
 
-    playerTex = TextureManager::LoadTexture("assets/MiniWorldSprites/Characters/Workers/FarmerTemplate.png", renderer);
-
+    player = new GameObject("assets/MiniWorldSprites/Characters/Workers/FarmerTemplate.png",renderer);
 }
 
 void Game::handleEvents() {
@@ -41,15 +41,14 @@ void Game::handleEvents() {
     }
 }
 
-void Game::update() {}
+void Game::update() {
+    player->update();
+}
 
 void Game::render() {
     SDL_RenderClear(renderer);
 
-    SDL_Rect* rect = new SDL_Rect;
-    rect->x=0; rect->y=0; rect->h=16; rect->w=16;
-    SDL_RenderCopy(renderer, playerTex, rect, nullptr);
-    delete rect;
+    player->render();
 
     SDL_RenderPresent(renderer);
 }
@@ -61,5 +60,6 @@ bool Game::running() {
 void Game::clean() {
     if(renderer) SDL_DestroyRenderer(renderer);
     if(window) SDL_DestroyWindow(window);
+    delete player;
     SDL_Quit();
 }
