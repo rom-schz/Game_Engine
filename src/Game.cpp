@@ -3,10 +3,16 @@
 #include "GameObject.hpp"
 #include "Map.hpp"
 
+#include "ECS.hpp"
+#include "Components.hpp"
+
 GameObject* player;
 Map* map;
 
 SDL_Renderer* Game::renderer = nullptr;
+
+Manager manager;
+auto& newPlayer(manager.addEntity());
 
 Game::Game() {}
 
@@ -31,6 +37,8 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 
     player = new GameObject("assets/MiniWorldSprites/Characters/Workers/FarmerTemplate.png");
     map = new Map();
+
+    newPlayer.addComponent<PositionComponent>();
 }
 
 void Game::handleEvents() {
@@ -47,6 +55,7 @@ void Game::handleEvents() {
 }
 
 void Game::update() {
+    manager.update();
     player->update();
 }
 

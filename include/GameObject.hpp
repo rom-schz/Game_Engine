@@ -1,5 +1,5 @@
-#ifndef GameObject_h
-#define GameObject_h
+#ifndef GameObject_hpp
+#define GameObject_hpp
 
 #include "Game.hpp"
 

@@ -1,5 +1,5 @@
-#ifndef Map_h
-#define Map_h
+#ifndef Map_hpp
+#define Map_hpp
 
 #include "SDL.h"
 #include "Game.hpp"
