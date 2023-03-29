@@ -5,14 +5,15 @@
 
 #include "ECS.hpp"
 #include "Components.hpp"
+#include "Vector2D.hpp"
 
-GameObject* player;
-Map* map;
 
 SDL_Renderer* Game::renderer = nullptr;
 
+Map* map;
+
 Manager manager;
-auto& newPlayer(manager.addEntity());
+auto& player(manager.addEntity());
 
 Game::Game() {}
 
@@ -35,10 +36,10 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
         isRunning = false;
     }
 
-    player = new GameObject("assets/MiniWorldSprites/Characters/Workers/FarmerTemplate.png");
     map = new Map();
 
-    newPlayer.addComponent<PositionComponent>();
+    player.addComponent<TransformComponent>();
+    player.addComponent<SpriteComponent>("assets/MiniWorldSprites/Characters/Workers/FarmerTemplate.png");
 }
 
 void Game::handleEvents() {
@@ -55,14 +56,20 @@ void Game::handleEvents() {
 }
 
 void Game::update() {
+    manager.refresh();
     manager.update();
-    player->update();
+
+    player.getComponent<TransformComponent>().position.add(Vector2D(1, 0));
+
+    if(player.getComponent<TransformComponent>().position.x > 100) {
+        player.getComponent<SpriteComponent>().setTex("assets/MiniWorldSprites/Characters/Workers/RedWorker/FarmerRed.png");
+    }
 }
 
 void Game::render() {
     SDL_RenderClear(renderer);
     map->render();
-    player->render();
+    manager.draw();
     SDL_RenderPresent(renderer);
 }
 
@@ -73,6 +80,5 @@ bool Game::running() {
 void Game::clean() {
     if(renderer) SDL_DestroyRenderer(renderer);
     if(window) SDL_DestroyWindow(window);
-    delete player;
     SDL_Quit();
 }

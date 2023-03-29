@@ -8,10 +8,11 @@ add_library(engine SHARED
     TextureManager.cpp
     GameObject.cpp
     Map.cpp
+    Vector2D.cpp
     ${HEADER_LIST})
 
 # We need this directory, and users of our library will need it too
-target_include_directories(engine PUBLIC ../include)
+target_include_directories(engine PUBLIC ../include ../include/components)
 
 # All users of this library will need at least C++11
 target_compile_features(engine PUBLIC cxx_std_11)
