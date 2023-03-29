@@ -9,6 +9,7 @@ add_library(engine SHARED
     GameObject.cpp
     Map.cpp
     Vector2D.cpp
+    Collision.cpp
     ${HEADER_LIST})
 
 # We need this directory, and users of our library will need it too

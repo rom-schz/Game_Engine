@@ -32,6 +32,12 @@ Map::Map() {
     LoadMap(map1);
 }
 
+Map::~Map() {
+    if(sand) SDL_DestroyTexture(sand);
+    if(grass) SDL_DestroyTexture(grass);
+    if(water) SDL_DestroyTexture(water);
+}
+
 void Map::LoadMap(int arr[20][25]) {
     for(int i=0; i<20; i++) {
         for(int j=0; j<25; j++)

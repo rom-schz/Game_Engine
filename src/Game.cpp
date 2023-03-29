@@ -2,10 +2,10 @@
 #include "TextureManager.hpp"
 #include "GameObject.hpp"
 #include "Map.hpp"
-
 #include "ECS.hpp"
 #include "Components.hpp"
 #include "Vector2D.hpp"
+#include "Collision.hpp"
 
 
 SDL_Renderer* Game::renderer = nullptr;
@@ -15,6 +15,7 @@ Map* map;
 
 Manager manager;
 auto& player(manager.addEntity());
+auto& wall(manager.addEntity());
 
 Game::Game() {}
 
@@ -42,6 +43,11 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
     player.addComponent<TransformComponent>();
     player.addComponent<SpriteComponent>("assets/MiniWorldSprites/Characters/Workers/FarmerTemplate.png");
     player.addComponent<KeyboardController>();
+    player.addComponent<ColliderComponent>("player");
+
+    wall.addComponent<TransformComponent>(300.0f, 300.0f, 300, 20, 1);
+    wall.addComponent<SpriteComponent>("assets/MiniWorldSprites/Buildings/Wood/Tower.png");
+    wall.addComponent<ColliderComponent>("wall");
 }
 
 void Game::handleEvents() {
@@ -59,6 +65,12 @@ void Game::handleEvents() {
 void Game::update() {
     manager.refresh();
     manager.update();
+
+    if(Collision::AABB(player.getComponent<ColliderComponent>().collider,
+                        wall.getComponent<ColliderComponent>().collider)) 
+    {
+        // Handle collision
+    }
 }
 
 void Game::render() {
