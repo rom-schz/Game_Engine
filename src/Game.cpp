@@ -9,6 +9,7 @@
 
 
 SDL_Renderer* Game::renderer = nullptr;
+SDL_Event Game::event;
 
 Map* map;
 
@@ -40,10 +41,10 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 
     player.addComponent<TransformComponent>();
     player.addComponent<SpriteComponent>("assets/MiniWorldSprites/Characters/Workers/FarmerTemplate.png");
+    player.addComponent<KeyboardController>();
 }
 
 void Game::handleEvents() {
-    SDL_Event event;
     SDL_PollEvent(&event);
 
     switch(event.type) {
@@ -58,12 +59,6 @@ void Game::handleEvents() {
 void Game::update() {
     manager.refresh();
     manager.update();
-
-    player.getComponent<TransformComponent>().position.add(Vector2D(1, 0));
-
-    if(player.getComponent<TransformComponent>().position.x > 100) {
-        player.getComponent<SpriteComponent>().setTex("assets/MiniWorldSprites/Characters/Workers/RedWorker/FarmerRed.png");
-    }
 }
 
 void Game::render() {
