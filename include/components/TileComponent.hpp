@@ -15,8 +15,8 @@ public:
 
     TileComponent() = default;
 
-    TileComponent(int srcX, int srcY, int xpos, int ypos, int tsize, int tscale, const char *path) {
-        texture = TextureManager::LoadTexture(path);
+    TileComponent(int srcX, int srcY, int xpos, int ypos, int tsize, int tscale, std::string texID) {
+        texture = Game::assets->getTexture(texID);
 
         position.x = xpos;
         position.y = ypos;
@@ -28,9 +28,7 @@ public:
         dstRect.w = dstRect.h = tsize * tscale;
     }
 
-    ~TileComponent() {
-        SDL_DestroyTexture(texture);
-    }
+    ~TileComponent() {}
 
     void update() override {
         dstRect.x = position.x - Game::camera.x;

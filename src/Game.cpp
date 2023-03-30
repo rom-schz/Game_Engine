@@ -8,6 +8,7 @@
 #include "Components.hpp"
 #include "Vector2D.hpp"
 #include "Collision.hpp"
+#include "AssetManager.cpp"
 
 
 SDL_Renderer* Game::renderer = nullptr;
@@ -16,8 +17,10 @@ bool Game::isRunning = false;
 SDL_Rect Game::camera = {0, 0, 800, 640}; 
 
 Map* map;
-
 Manager manager;
+
+AssetManager* Game::assets = new AssetManager(&manager);
+
 auto& player(manager.addEntity());
 
 
@@ -42,11 +45,14 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
         isRunning = false;
     }
 
-    map = new Map("assets/Map/terrain_ss.png", 2, 32);
+    assets->addTexture("terrain", "assets/Map/terrain_ss.png");
+    assets->addTexture("player", "assets/MiniWorldSprites/Characters/Workers/FarmerTemplate.png");
+
+    map = new Map("terrain", 2, 32);
     map->LoadMap("assets/Map/map.map", 25, 20);
 
     player.addComponent<TransformComponent>(4);
-    player.addComponent<SpriteComponent>("assets/MiniWorldSprites/Characters/Workers/FarmerTemplate.png", true);
+    player.addComponent<SpriteComponent>("player", true);
     player.addComponent<KeyboardController>();
     player.addComponent<ColliderComponent>("player");
     player.addGroup(groupPlayers);

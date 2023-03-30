@@ -11,6 +11,7 @@ add_library(engine SHARED
     Vector2D.cpp
     Collision.cpp
     ECS.cpp
+    AssetManager.cpp
     ${HEADER_LIST})
 
 # We need this directory, and users of our library will need it too

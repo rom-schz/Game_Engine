@@ -25,8 +25,8 @@ public:
         srcRect.w = srcRect.h = 0;
     }
 
-    SpriteComponent(const char* path, bool isAnimated) {
-        setTex(path);
+    SpriteComponent(std::string texID, bool isAnimated) {
+        setTex(texID);
         animated = isAnimated;
 
         if(animated) {
@@ -47,11 +47,10 @@ public:
     }
 
     ~SpriteComponent() {
-        SDL_DestroyTexture(texture);
     }
 
-    void setTex(const char* path) {
-        texture = TextureManager::LoadTexture(path);
+    void setTex(std::string texID) {
+        texture = Game::assets->getTexture(texID);
     }
 
     void init() override {
