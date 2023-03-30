@@ -24,11 +24,6 @@ public:
         srcRect.w = srcRect.h = 0;
     }
 
-    SpriteComponent(const char* path, SDL_Rect srcRect) {
-        setTex(path);
-        this->srcRect = srcRect; // Giving a source rectangle for static sprites without animation.
-    }
-
     SpriteComponent(const char* path, bool isAnimated) {
         setTex(path);
         animated = isAnimated;
@@ -63,11 +58,6 @@ public:
 
         srcRect.w = transform->width;
         srcRect.h = transform->height;
-
-        dstRect.x = dstRect.y = 0;
-        dstRect.w = transform->width * transform->scale;
-        dstRect.h = transform->height * transform->scale;
-
     }
 
     void update() override {
@@ -79,8 +69,8 @@ public:
 
         dstRect.x = static_cast<int>(transform->position.x);
         dstRect.y = static_cast<int>(transform->position.y);
-        dstRect.w = static_cast<int>(transform->width * transform->scale);
-        dstRect.h = static_cast<int>(transform->height * transform->scale);
+        dstRect.w = transform->width * transform->scale;
+        dstRect.h = transform->height * transform->scale;
     }
 
     void draw() override {

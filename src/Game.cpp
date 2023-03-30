@@ -21,6 +21,8 @@ Manager manager;
 auto& player(manager.addEntity());
 auto& wall(manager.addEntity());
 
+const char * mapFile = "assets/Map/terrain_ss.png";
+
 enum groupLabels : std::size_t {
     groupMap,
     groupPlayers,
@@ -52,18 +54,13 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
         isRunning = false;
     }
 
-    Map::LoadMap("assets/Map/map1.map", 16, 16);
+    Map::LoadMap("assets/Map/map.map", 25, 20);
 
-    player.addComponent<TransformComponent>();
+    player.addComponent<TransformComponent>(4);
     player.addComponent<SpriteComponent>("assets/MiniWorldSprites/Characters/Workers/FarmerTemplate.png", true);
     player.addComponent<KeyboardController>();
     player.addComponent<ColliderComponent>("player");
     player.addGroup(groupPlayers);
-
-    wall.addComponent<TransformComponent>(300.0f, 300.0f, 300, 20, 1);
-    wall.addComponent<SpriteComponent>("assets/MiniWorldSprites/Buildings/Wood/Tower.png");
-    wall.addComponent<ColliderComponent>("wall");
-    wall.addGroup(groupMap);
 }
 
 void Game::handleEvents() {
@@ -112,8 +109,8 @@ void Game::clean() {
     SDL_Quit();
 }
 
-void Game::addTile(int id, int x, int y) {
+void Game::addTile(int srcX, int srcY, int x, int y) {
     auto& tile(manager.addEntity());
-    tile.addComponent<TileComponent>(x, y, 16, 16, id);
+    tile.addComponent<TileComponent>(srcX, srcY, x, y, mapFile);
     tile.addGroup(groupMap);
 }

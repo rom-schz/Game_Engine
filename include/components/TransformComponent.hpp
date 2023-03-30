@@ -16,11 +16,12 @@ public:
     float speed = 3;
 
     TransformComponent() {
-        TransformComponent(0.0f, 0.0f, 16, 16, 2);
+        position.zero();
     }
 
     TransformComponent(int sc) {
-        TransformComponent(0.0f, 0.0f, 16, 16, sc);
+        position.zero();
+        scale = sc;
     }
 
     TransformComponent(float x, float y, int h=16, int w=16, int sc=2) {
