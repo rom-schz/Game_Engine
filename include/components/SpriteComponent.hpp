@@ -8,6 +8,7 @@
 #include "SDL.h"
 #include "Animation.hpp"
 #include "Game.hpp"
+#include "AssetManager.hpp"
 
 class SpriteComponent : public Component {
 
@@ -19,10 +20,8 @@ public:
 
     SpriteComponent() = default;
 
-    SpriteComponent(const char* path) {
-        setTex(path);
-        srcRect.x = srcRect.y = 0;
-        srcRect.w = srcRect.h = 0;
+    SpriteComponent(std::string texID) {
+        setTex(texID);
     }
 
     SpriteComponent(std::string texID, bool isAnimated) {
@@ -69,8 +68,8 @@ public:
 
         dstRect.x = static_cast<int>(transform->position.x) - Game::camera.x;
         dstRect.y = static_cast<int>(transform->position.y) - Game::camera.y;
-        dstRect.w = static_cast<int>(transform->width * transform->scale);
-        dstRect.h = static_cast<int>(transform->height * transform->scale);
+        dstRect.w = transform->width * transform->scale;
+        dstRect.h = transform->height * transform->scale;
     }
 
     void draw() override {

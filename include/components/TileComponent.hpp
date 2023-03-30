@@ -5,6 +5,7 @@
 #include "TransformComponent.hpp"
 #include "SpriteComponent.hpp"
 #include "SDL.h"
+#include "AssetManager.hpp"
 
 class TileComponent : public Component {
 public:

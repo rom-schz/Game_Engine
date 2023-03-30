@@ -8,7 +8,7 @@
 #include "Components.hpp"
 #include "Vector2D.hpp"
 #include "Collision.hpp"
-#include "AssetManager.cpp"
+#include "AssetManager.hpp"
 
 
 SDL_Renderer* Game::renderer = nullptr;
@@ -47,6 +47,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 
     assets->addTexture("terrain", "assets/Map/terrain_ss.png");
     assets->addTexture("player", "assets/MiniWorldSprites/Characters/Workers/FarmerTemplate.png");
+    assets->addTexture("projectile", "assets/projectile.png");
 
     map = new Map("terrain", 2, 32);
     map->LoadMap("assets/Map/map.map", 25, 20);
@@ -56,11 +57,17 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
     player.addComponent<KeyboardController>();
     player.addComponent<ColliderComponent>("player");
     player.addGroup(groupPlayers);
+
+    assets->createProjectile(Vector2D(400, 400), Vector2D(2, 0), 200, 1, "projectile");
+    assets->createProjectile(Vector2D(400, 420), Vector2D(2, 0), 200, 1, "projectile");
+    assets->createProjectile(Vector2D(400, 600), Vector2D(2, -1), 200, 1, "projectile");
+    assets->createProjectile(Vector2D(400, 400), Vector2D(2, 1), 200, 1, "projectile");
 }
 
 auto& tiles(manager.getGroup(Game::groupMap));
 auto& players(manager.getGroup(Game::groupPlayers));
 auto& colliders(manager.getGroup(Game::groupColliders));
+auto& projectiles(manager.getGroup(Game::groupProjectiles));
 
 void Game::handleEvents() {
     SDL_PollEvent(&event);
@@ -88,6 +95,15 @@ void Game::update() {
         }
     }
 
+    for(auto& p : projectiles) {
+        if(Collision::AABB(p->getComponent<ColliderComponent>().collider,
+            player.getComponent<ColliderComponent>().collider))
+        {
+            std::cout << "Hit player !" << std::endl;
+            p->destroy();
+        }
+    }
+
     camera.x = player.getComponent<TransformComponent>().position.x - 400;
     camera.y = player.getComponent<TransformComponent>().position.y - 320;
 
@@ -106,6 +122,7 @@ void Game::render() {
     for (auto& t : tiles) t->draw();
     for (auto& c : colliders) c->draw();
     for (auto& p : players) p->draw();
+    for (auto& p : projectiles) p->draw();
     SDL_RenderPresent(renderer);
 }
 
