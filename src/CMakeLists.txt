@@ -10,6 +10,7 @@ add_library(engine SHARED
     Map.cpp
     Vector2D.cpp
     Collision.cpp
+    ECS.cpp
     ${HEADER_LIST})
 
 # We need this directory, and users of our library will need it too
