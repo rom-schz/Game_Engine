@@ -26,11 +26,12 @@ const char * mapFile = "assets/Map/terrain_ss.png";
 enum groupLabels : std::size_t {
     groupMap,
     groupPlayers,
-    groupEnemies,
-    groupColliders
+    groupEnemies
 };
 
-
+auto& tiles(manager.getGroup(groupMap));
+auto& players(manager.getGroup(groupPlayers));
+auto& enemies(manager.getGroup(groupEnemies));
 
 
 Game::Game() {}
@@ -79,16 +80,14 @@ void Game::update() {
     manager.refresh();
     manager.update();
 
-    for (auto cc : colliders) {
-        Collision::AABB(player.getComponent<ColliderComponent>(), *cc);
-    }
-    
-}
+    Vector2D pVelocity = player.getComponent<TransformComponent>().velocity;
+    float pSpeed = player.getComponent<TransformComponent>().speed;
 
-auto& tiles(manager.getGroup(groupMap));
-auto& players(manager.getGroup(groupPlayers));
-auto& enemies(manager.getGroup(groupEnemies));
-auto& colliders(manager.getGroup(groupColliders));
+    for (auto t : tiles) {
+        t->getComponent<TileComponent>().dstRect.x -= pVelocity.x * pSpeed;
+        t->getComponent<TileComponent>().dstRect.y -= pVelocity.y * pSpeed;
+    }    
+}
 
 void Game::render() {
     SDL_RenderClear(renderer);

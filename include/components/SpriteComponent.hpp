@@ -69,8 +69,8 @@ public:
 
         dstRect.x = static_cast<int>(transform->position.x);
         dstRect.y = static_cast<int>(transform->position.y);
-        dstRect.w = transform->width * transform->scale;
-        dstRect.h = transform->height * transform->scale;
+        dstRect.w = static_cast<int>(transform->width * transform->scale);
+        dstRect.h = static_cast<int>(transform->height * transform->scale);
     }
 
     void draw() override {
