@@ -42,7 +42,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
         isRunning = false;
     }
 
-    map = new Map();
+    Map::LoadMap("assets/Map/map1.map", 16, 16);
 
     player.addComponent<TransformComponent>();
     player.addComponent<SpriteComponent>("assets/MiniWorldSprites/Characters/Workers/FarmerTemplate.png");
