@@ -34,8 +34,10 @@ public:
                     transform->velocity.x = 1;
                     sprite->play("Walk right");
                     break;
+                case SDLK_ESCAPE:
+                    Game::isRunning = false;
+                    break;
                 default:
-                    sprite->play("Idle");
                     break;
             }
         }
@@ -43,15 +45,19 @@ public:
         if(Game::event.type == SDL_KEYUP) {
             switch(Game::event.key.keysym.sym) {
                 case SDLK_z:
+                    sprite->play("Idle");
                     transform->velocity.y = 0;
                     break;
                 case SDLK_q:
+                    sprite->play("Idle");
                     transform->velocity.x = 0;
                     break;
                 case SDLK_s:
+                    sprite->play("Idle");
                     transform->velocity.y = 0;
                     break;
                 case SDLK_d:
+                    sprite->play("Idle");
                     transform->velocity.x = 0;
                     break;
                 default:

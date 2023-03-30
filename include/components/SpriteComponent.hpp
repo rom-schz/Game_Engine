@@ -7,6 +7,7 @@
 #include "TextureManager.hpp"
 #include "SDL.h"
 #include "Animation.hpp"
+#include "Game.hpp"
 
 class SpriteComponent : public Component {
 
@@ -67,8 +68,8 @@ public:
 
         srcRect.y = animIndex * transform->height;
 
-        dstRect.x = static_cast<int>(transform->position.x);
-        dstRect.y = static_cast<int>(transform->position.y);
+        dstRect.x = static_cast<int>(transform->position.x) - Game::camera.x;
+        dstRect.y = static_cast<int>(transform->position.y) - Game::camera.y;
         dstRect.w = static_cast<int>(transform->width * transform->scale);
         dstRect.h = static_cast<int>(transform->height * transform->scale);
     }
