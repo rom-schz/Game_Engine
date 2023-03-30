@@ -9,14 +9,23 @@ class SpriteComponent : public Component {
 
 public:
     SpriteComponent() = default;
+
     SpriteComponent(const char* path) {
         setTex(path);
         srcRect.x = srcRect.y = 0;
         srcRect.w = srcRect.h = 0;
     }
+
     SpriteComponent(const char* path, SDL_Rect srcRect) {
         setTex(path);
         this->srcRect = srcRect;
+    }
+
+    SpriteComponent(const char* path, int nFrames, int mSpeed) {
+        setTex(path);
+        animated = true;
+        frames = nFrames;
+        speed = mSpeed;
     }
 
     ~SpriteComponent() {
@@ -40,6 +49,10 @@ public:
     }
 
     void update() override {
+        if(animated) {
+            srcRect.x = srcRect.w * static_cast<int>((SDL_GetTicks() / speed) % frames);
+        }
+
         dstRect.x = static_cast<int>(transform->position.x);
         dstRect.y = static_cast<int>(transform->position.y);
         dstRect.w = static_cast<int>(transform->width * transform->scale);
@@ -56,6 +69,10 @@ private:
     SDL_Texture *texture;
 
     SDL_Rect srcRect, dstRect;
+
+    bool animated = false;
+    int frames = 0;
+    int speed = 100;
 
 };
 
