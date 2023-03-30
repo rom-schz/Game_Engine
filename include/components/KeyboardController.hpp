@@ -8,9 +8,11 @@
 class KeyboardController : public Component {
 public:
     TransformComponent *transform;
+    SpriteComponent *sprite;
 
     void init() override {
         transform = &entity->getComponent<TransformComponent>();
+        sprite = &entity->getComponent<SpriteComponent>();
     }
 
     void update() override {
@@ -18,17 +20,22 @@ public:
             switch(Game::event.key.keysym.sym) {
                 case SDLK_z:
                     transform->velocity.y = -1;
+                    sprite->play("Walk up");
                     break;
                 case SDLK_q:
                     transform->velocity.x = -1;
+                    sprite->play("Walk left");
                     break;
                 case SDLK_s:
                     transform->velocity.y = 1;
+                    sprite->play("Walk down");
                     break;
                 case SDLK_d:
                     transform->velocity.x = 1;
+                    sprite->play("Walk right");
                     break;
                 default:
+                    sprite->play("Idle");
                     break;
             }
         }
