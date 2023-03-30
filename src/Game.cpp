@@ -1,3 +1,5 @@
+#include <vector>
+
 #include "Game.hpp"
 #include "TextureManager.hpp"
 #include "GameObject.hpp"
@@ -10,6 +12,8 @@
 
 SDL_Renderer* Game::renderer = nullptr;
 SDL_Event Game::event;
+
+std::vector<ColliderComponent*> Game::colliders;
 
 Map* map;
 
@@ -66,16 +70,14 @@ void Game::update() {
     manager.refresh();
     manager.update();
 
-    if(Collision::AABB(player.getComponent<ColliderComponent>().collider,
-                        wall.getComponent<ColliderComponent>().collider)) 
-    {
-        // Handle collision
+    for (auto cc : colliders) {
+        Collision::AABB(player.getComponent<ColliderComponent>(), *cc);
     }
+    
 }
 
 void Game::render() {
     SDL_RenderClear(renderer);
-    map->render();
     manager.draw();
     SDL_RenderPresent(renderer);
 }
@@ -88,4 +90,9 @@ void Game::clean() {
     if(renderer) SDL_DestroyRenderer(renderer);
     if(window) SDL_DestroyWindow(window);
     SDL_Quit();
+}
+
+void Game::addTile(int id, int x, int y) {
+    auto& tile(manager.addEntity());
+    tile.addComponent<TileComponent>(x, y, 16, 16, id);
 }

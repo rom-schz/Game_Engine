@@ -33,7 +33,7 @@ public:
     }
 
     void init() override {
-        velocity.x = velocity.y = 0;
+        velocity.zero();
     }
 
     void update() override {

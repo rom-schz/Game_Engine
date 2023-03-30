@@ -75,6 +75,27 @@ Vector2D& Vector2D::operator/=(Vector2D& v) {
     return this->divide(v);
 }
 
+Vector2D& Vector2D::operator*(const float& f) {
+    this->x *= f;
+    this->y *= f;
+
+    return *this;
+}
+
+Vector2D& Vector2D::operator*=(const float& f) {
+    this->x *= f;
+    this->y *= f;
+
+    return *this;
+}
+
+Vector2D& Vector2D::zero() {
+    this->x = 0;
+    this->y = 0;
+
+    return *this;
+}
+
 
 
 /** ==============================================================================
