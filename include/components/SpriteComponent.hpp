@@ -50,13 +50,20 @@ public:
 
     void setTex(std::string texID) {
         texture = Game::assets->getTexture(texID);
+        if(!texture) SDL_Log("Failed to get texture from assets!");
     }
 
     void init() override {
         transform = &entity->getComponent<TransformComponent>();
 
+        srcRect.x = srcRect.y = 0;
         srcRect.w = transform->width;
         srcRect.h = transform->height;
+
+        dstRect.x = static_cast<int>(transform->position.x) - Game::camera.x;
+        dstRect.y = static_cast<int>(transform->position.y) - Game::camera.y;
+        dstRect.w = transform->width * transform->scale;
+        dstRect.h = transform->height * transform->scale;
     }
 
     void update() override {
@@ -84,7 +91,7 @@ public:
 
 private:
     TransformComponent *transform;
-    SDL_Texture *texture;
+    SDL_Texture *texture = nullptr;
 
     SDL_Rect srcRect, dstRect;
 

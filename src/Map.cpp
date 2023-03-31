@@ -17,7 +17,7 @@ Map::~Map() {
 }
 
 void Map::LoadMap(std::string path, int sizeX, int sizeY) {
-    char c;
+    char c[2] = {'0', '\0'};
     std::fstream mapFile;
     mapFile.open(path);
 
@@ -26,11 +26,11 @@ void Map::LoadMap(std::string path, int sizeX, int sizeY) {
     // Add terrain tiles
     for(int y=0; y < sizeY; y++) {
         for(int x=0; x < sizeX; x++) {
-            mapFile.get(c);
-            srcY = atoi(&c) * tileSize;
+            mapFile.get(c[0]);
+            srcY = atoi(c) * tileSize;
 
-            mapFile.get(c);
-            srcX = atoi(&c) * tileSize;
+            mapFile.get(c[0]);
+            srcX = atoi(c) * tileSize;
 
             addTile(srcX, srcY, x * scaledSize, y * scaledSize);
             mapFile.ignore();
@@ -42,9 +42,9 @@ void Map::LoadMap(std::string path, int sizeX, int sizeY) {
     // Add collision tiles
     for(int y=0; y < sizeY; y++) {
         for(int x=0; x < sizeX; x++) {
-            mapFile.get(c);
+            mapFile.get(c[0]);
 
-            if(c == '1') {
+            if(c[0] == '1') {
                 auto& tcol(manager.addEntity());
                 tcol.addComponent<ColliderComponent>("terrain", x * scaledSize, y * scaledSize, scaledSize);
                 tcol.addGroup(Game::groupColliders);

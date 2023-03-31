@@ -120,7 +120,7 @@ void Game::update() {
 void Game::render() {
     SDL_RenderClear(renderer);
     for (auto& t : tiles) t->draw();
-    for (auto& c : colliders) c->draw();
+    //for (auto& c : colliders) c->draw();
     for (auto& p : players) p->draw();
     for (auto& p : projectiles) p->draw();
     SDL_RenderPresent(renderer);
@@ -133,5 +133,6 @@ bool Game::running() {
 void Game::clean() {
     if(renderer) SDL_DestroyRenderer(renderer);
     if(window) SDL_DestroyWindow(window);
+    delete map;
     SDL_Quit();
 }

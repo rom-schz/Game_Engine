@@ -20,6 +20,9 @@ public:
 
     ColliderComponent(std::string t) {
         tag = t;
+        collider.x = 0;
+        collider.y = 0;
+        collider.h = collider.w = 16;
     }
 
     ColliderComponent(std::string t, int xpos, int ypos, int size) {

@@ -13,11 +13,10 @@ public:
     void addTile(int srcX, int srcY, int x, int y);
 
 private:
-    std::string texID;
-    int mapScale;
-    int tileSize;
-    int scaledSize;
-
+    std::string texID = "";
+    int mapScale = 1;
+    int tileSize = 32;
+    int scaledSize = 32;
 };
 
 #endif
